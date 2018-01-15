@@ -1,0 +1,28 @@
+{
+  "name": "morphling.js",
+  "version": "0.0.1",
+  "description": "Just add water data filter for javascript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && webpack --progress --hide-modules",
+    "start:dev": "rm -rf dist && webpack --watch"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "filters",
+    "attributes"
+  ],
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^3.5.4",
+    "css-loader": "^0.28.4",
+    "style-loader": "^0.18.2"
+  },
+  "author": "Jofferson Ramirez Tiquez",
+  "license": "MIT"
+}
