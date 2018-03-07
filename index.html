@@ -2,24 +2,16 @@
 <html>
 <head>
   <title>morphling.js</title>
-  <script src="./dist/morphling.js"></script>
-  <style>
-  </style>
+  
 </head>
 <body>
   <div>
-    <button morph="uppercase">Test</button>
-    <button id="btn2">Test</button>
-    <a morph="uppercase" href="www.facebook.com">www.facebook.com</a>
-    <p morph="uppercase">the quick brown fox jumps over the lazy dog.</p>
-    <b morph="reverse">Reverese</b>
-    <b morph="capitalize">capitalize</b>
-    <br>
-    <p morph="capitalize">asdasd</p>
+    <h1 data-morph.uppercase>small h1</h1>
+    <p data-morph.lowercase>LARGE P</p>
+    <p data-morph.truncate="4">Jofferson</p>
+    <strong data-morph.reverse>Reverse</strong>
+    <h1 data-morph.capitalize data-morph.reverse>democracy</h1>
   </div>
-  <script>
-    console.log(Morphling.lowercase('SMALL'))
-    console.log(Morphling.uppercase('large'))
-  </script>
+  <script src="./dist/morphling.js"></script>
 </body>
 </html>
