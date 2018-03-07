@@ -1,7 +1,7 @@
 {
   "name": "morphling.js",
-  "version": "0.0.1",
-  "description": "Just add water data filter for javascript.",
+  "version": "0.0.2",
+  "description": "Just add water data filters for javascript.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
