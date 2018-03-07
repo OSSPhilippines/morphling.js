@@ -47,10 +47,10 @@ mophling.reverse('bar');
 ```
 
 ```html
-<h1 data-morphling.uppercase>foo</h1>
+<h1 data-morph.uppercase>foo</h1>
 <!-- FOO -->
 
-<h1 data-morphling.reverse>bar</h1>
+<h1 data-morph.reverse>bar</h1>
 <!-- rab -->
 ```
 
