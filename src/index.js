@@ -1,24 +1,22 @@
 export * from './filters';
 import * as filters from './filters';
-import { getElements } from './tags';
+import {
+  getMorphAttributes
+} from './attributes';
 
 (() => {
-  window.addEventListener('load', () => {
-    const els = getElements();
-    els.forEach(el => {
-      for (let e of el) {
-        var morph = e.getAttribute('morph');
-        var text = e.innerHTML;
-        
-        console.log(morph, text)
-        if(morph && morph.match(/\=/gi)) {
-          console.log(morph.split('='))
-          morph = morph.split('=')[0];
-        }
-        console.log(morph)
-        e.innerHTML = filters[morph](text);
-        
-      }
-    })
+  const elemAttrs = getMorphAttributes();
+  elemAttrs.forEach(elemAttr => {
+    try {
+      elemAttr.forEach(attr => {
+        const {el, name, value} = attr;
+        const filter = name.split('.')[1];
+        const func = `_${filter}`;
+        filters[func](el, value);
+      });
+    } catch (e) {
+      console.error('Morphling Error:', e);
+      return;
+    }
   });
 })();
