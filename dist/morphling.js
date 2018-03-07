@@ -89,48 +89,27 @@ Object.keys(_filters).forEach(function (key) {
 
 var filters = _interopRequireWildcard(_filters);
 
-var _tags = __webpack_require__(7);
+var _attributes = __webpack_require__(7);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 (function () {
-  window.addEventListener('load', function () {
-    var els = (0, _tags.getElements)();
-    els.forEach(function (el) {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+  var elemAttrs = (0, _attributes.getMorphAttributes)();
+  elemAttrs.forEach(function (elemAttr) {
+    try {
+      elemAttr.forEach(function (attr) {
+        var el = attr.el,
+            name = attr.name,
+            value = attr.value;
 
-      try {
-        for (var _iterator = el[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var e = _step.value;
-
-          var morph = e.getAttribute('morph');
-          var text = e.innerHTML;
-
-          console.log(morph, text);
-          if (morph && morph.match(/\=/gi)) {
-            console.log(morph.split('='));
-            morph = morph.split('=')[0];
-          }
-          console.log(morph);
-          e.innerHTML = filters[morph](text);
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-    });
+        var filter = name.split('.')[1];
+        var func = '_' + filter;
+        filters[func](el, value);
+      });
+    } catch (e) {
+      console.error('Morphling Error:', e);
+      return;
+    }
   });
 })();
 
@@ -215,8 +194,17 @@ Object.keys(_truncate).forEach(function (key) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var capitalize = exports.capitalize = function capitalize(data) {
+function doIt(data, opts) {
   return '' + data.charAt(0).toUpperCase() + data.substring(1);
+}
+
+var capitalize = exports.capitalize = function capitalize(data, opts) {
+  return doIt(data, opts);
+};
+
+var _capitalize = exports._capitalize = function _capitalize(el, value) {
+  var data = el.textContent;
+  el.innerHTML = doIt(data, value);
 };
 
 /***/ }),
@@ -229,8 +217,17 @@ var capitalize = exports.capitalize = function capitalize(data) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var lowercase = exports.lowercase = function lowercase(data) {
+function doIt(data, opts) {
   return data.toLowerCase();
+}
+
+var lowercase = exports.lowercase = function lowercase(data, opts) {
+  return doIt(data, opts);
+};
+
+var _lowercase = exports._lowercase = function _lowercase(el, value) {
+  var data = el.textContent;
+  el.innerHTML = doIt(data, value);
 };
 
 /***/ }),
@@ -243,8 +240,17 @@ var lowercase = exports.lowercase = function lowercase(data) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var uppercase = exports.uppercase = function uppercase(data) {
+function doIt(data, opts) {
   return data.toUpperCase();
+}
+
+var uppercase = exports.uppercase = function uppercase(data, opts) {
+  return doIt(data, opts);
+};
+
+var _uppercase = exports._uppercase = function _uppercase(el, value) {
+  var data = el.textContent;
+  el.innerHTML = doIt(data, value);
 };
 
 /***/ }),
@@ -257,8 +263,17 @@ var uppercase = exports.uppercase = function uppercase(data) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var reverse = exports.reverse = function reverse(data) {
+function doIt(data, opts) {
   return data.split('').reverse().join('');
+}
+
+var reverse = exports.reverse = function reverse(data, opts) {
+  return doIt(data, opts);
+};
+
+var _reverse = exports._reverse = function _reverse(el, value) {
+  var data = el.textContent;
+  el.innerHTML = doIt(data, value);
 };
 
 /***/ }),
@@ -271,8 +286,17 @@ var reverse = exports.reverse = function reverse(data) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var truncate = exports.truncate = function truncate(data) {
-  return '' + data.charAt(0).toUpperCase() + data.substring(1);
+function doIt(data, opts) {
+  return data.substr(0, opts) + '\u2026';
+}
+
+var truncate = exports.truncate = function truncate(data, opts) {
+  return doIt(data, opts);
+};
+
+var _truncate = exports._truncate = function _truncate(el, value) {
+  var data = el.textContent;
+  el.innerHTML = doIt(data, value);
 };
 
 /***/ }),
@@ -285,29 +309,40 @@ var truncate = exports.truncate = function truncate(data) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getElements = undefined;
+exports.getMorphAttributes = undefined;
 
-var _htmlTags = __webpack_require__(8);
+var _invalidTags = __webpack_require__(8);
 
-var _htmlTags2 = _interopRequireDefault(_htmlTags);
+var _invalidTags2 = _interopRequireDefault(_invalidTags);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var getElements = exports.getElements = function getElements() {
-  var els = [];
-  _htmlTags2.default.forEach(function (tag) {
-    if (tag === 'body') return;
-    var el = document.getElementsByTagName(tag);
-    if (!!+el.length) els.push(el);
+function getElementAttrs(el) {
+  return [].slice.call(el.attributes).map(function (attr) {
+    return {
+      el: el,
+      name: attr.name,
+      value: attr.value
+    };
   });
-  return els;
+}
+
+var getMorphAttributes = exports.getMorphAttributes = function getMorphAttributes() {
+  var elemsRaw = document.body.getElementsByTagName('*');
+  var elemsArr = Array.prototype.slice.call(elemsRaw);
+  var attributes = [];
+  elemsArr.forEach(function (elem) {
+    if (_invalidTags2.default.includes(elem.tagName)) return;
+    attributes.push(getElementAttrs(elem));
+  });
+  return attributes;
 };
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = ["a","abbr","acronym","address","applet","area","article","aside","audio","b","base","basefont","bdi","bdo","big","blockquote","body","br","button","canvas","caption","center","cite","code","col","colgroup","datalist","dd","del","details","dfn","dialog","dir","div","dl","dt","em","embed","fieldset","figcaption","figure","font","footer","form","frame","frameset","h1","h2","h3","h4","h5","h6","head","header","hr","html","i","iframe","img","input","ins","kbd","keygen","label","legend","li","link","main","map","mark","menu","menuitem","meta","meter","nav","noframes","noscript","object","ol","optgroup","option","output","p","param","pre","progress","q","rp","rt","ruby","s","samp","script","section","select","small","source","span","strike","strong","style","sub","summary","sup","table","tbody","td","textarea","tfoot","th","thead","time","title","tr","track","tt","u","ul","var","video","wbr"]
+module.exports = ["div","DIV","script","SCRIPT"]
 
 /***/ })
 /******/ ]);
