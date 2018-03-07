@@ -1,5 +1,7 @@
 # morphling.js
 
+> NOTE: This library is currently in development stage and is not yet ready for production use.
+
 Super easy to use, pure Javascript data filters collection.
 
 ## Install 
