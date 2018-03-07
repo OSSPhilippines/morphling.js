@@ -53,3 +53,5 @@ mophling.reverse('bar');
 <h1 data-morphling.reverse>bar</h1>
 <!-- rab -->
 ```
+
+Made with ❤️ by Jofferson Ramirez Tiquez
