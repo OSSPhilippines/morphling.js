@@ -1,6 +1,6 @@
 {
   "name": "morphling",
-  "version": "0.8.0",
+  "version": "0.8.0-dev.1",
   "description": "Just add water data filters for javascript.",
   "main": "index.js",
   "scripts": {
