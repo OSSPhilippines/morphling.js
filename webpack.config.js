@@ -9,7 +9,7 @@ function createConfig(target) {
   }
 
   var output = {
-    library: 'Morphling',
+    library: 'morphling',
     libraryTarget: target,
     path: path.resolve(__dirname, 'dist'),
     filename: name
