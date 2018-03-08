@@ -10,7 +10,13 @@ import {
     try {
       elemAttr.forEach(attr => {
         const {el, name, value} = attr;
-        const filter = name.split('.')[1];
+        let filter = name.split('.')[1];
+
+        // Convert kebab-case to camelCase
+        filter = filter.replace(/-\w/g, (m) => {
+          return m[1].toUpperCase();
+        });
+
         const func = `_${filter}`;
         filters[func](el, value);
       });
