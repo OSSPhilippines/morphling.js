@@ -10,18 +10,18 @@ Super easy to use, pure Javascript data filters collection.
 
 **NPM** or **Yard**
 
-`npm install morphling.js`
+`npm install morphling`
 
-`yarn add morphling.js`
+`yarn add morphling`
 
 **CDN**
 
-`https://unpkg.com/morphling.js/dist/morphling.js`
+`https://unpkg.com/morphling/dist/morphling.js`
 # Apply
 
 *Node*
 
-`import morphling from 'morphling.js'`;
+`import morphling from 'morphling'`;
 
 *HTML*
 
